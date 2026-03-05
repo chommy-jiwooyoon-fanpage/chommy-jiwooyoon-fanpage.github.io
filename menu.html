@@ -1,25 +1,21 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>SELECT ACTOR</title>
+    <title>SELECT</title>
     <style>
-        body { margin: 0; background: #eef2f6; height: 100vh; display: flex; align-items: center; justify-content: center; font-family: sans-serif; }
-        .actor-container { display: flex; gap: 40px; }
-        .actor-card { 
-            text-decoration: none; width: 220px; height: 120px; background: #eef2f6; 
-            border-radius: 35px; display: flex; align-items: center; justify-content: center; 
-            box-shadow: 15px 15px 30px #d1d9e6, -15px -15px 30px #ffffff; transition: 0.4s; 
+        body { background: #eef2f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; }
+        .btn { 
+            text-decoration: none; width: 200px; height: 100px; background: white; 
+            margin: 20px; border-radius: 30px; display: flex; justify-content: center; 
+            align-items: center; font-weight: bold; color: #444;
+            box-shadow: 10px 10px 20px #d1d9e6, -10px -15px 20px #ffffff;
         }
-        .actor-name { font-size: 1.1rem; font-weight: 900; color: #444; }
-        .actor-card:hover { transform: translateY(-10px); background: #8ea8c9; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .actor-card:hover .actor-name { color: white; }
+        .btn:hover { background: #8ea8c9; color: white; }
     </style>
 </head>
 <body>
-    <div class="actor-container">
-        <a href="jiwoo-list.html" class="actor-card"><span class="actor-name">HAN JI WOO</span></a>
-        <a href="joyoon-list.html" class="actor-card"><span class="actor-name">CHO YOON</span></a>
-    </div>
+    <a href="jiwoo-list.html" class="btn">HAN JI WOO</a>
+    <a href="joyoon-list.html" class="btn">CHO YOON</a>
 </body>
 </html>

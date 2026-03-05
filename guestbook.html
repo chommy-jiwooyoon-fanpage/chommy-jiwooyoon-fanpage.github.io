@@ -5,70 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GUESTBOOK</title>
     <style>
-        body { font-family: 'Apple SD Gothic Neo', sans-serif; text-align: center; background: #f0f4ff; margin: 0; padding: 40px 20px; }
-        .fixed-btn { position: fixed; left: 20px; width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 9999; text-decoration: none; }
-        .board-card { max-width: 600px; margin: 0 auto; background: white; padding: 25px; border-radius: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-        .msg-box { background: #f9fbff; padding: 15px; border-radius: 15px; margin-top: 15px; text-align: left; border: 1px solid #eef2ff; }
-        .admin-tag { color: #7baaff; font-weight: 800; font-size: 12px; margin-right: 5px; }
+        body { font-family: 'Apple SD Gothic Neo', sans-serif; background: #eef2f6; margin: 0; padding: 100px 20px 40px; text-align: center; }
+        .bgm-player { position: fixed; top: 30px; left: 30px; z-index: 10001; display: flex; align-items: center; gap: 15px; padding: 10px 20px; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 100px; border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03); }
+        .visualizer { display: flex; align-items: center; gap: 3px; height: 12px; cursor: pointer; }
+        .bar { width: 2px; height: 100%; background: #8ea8c9; border-radius: 2px; transition: 0.3s; }
+        .playing .bar { animation: wave 1s ease-in-out infinite; }
+        @keyframes wave { 0%, 100% { height: 4px; } 50% { height: 12px; } }
+        .control-group { display: flex; align-items: center; gap: 12px; border-left: 1px solid rgba(142, 168, 201, 0.3); padding-left: 12px; }
+        .btn-icon { cursor: pointer; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; color: #8ea8c9; transition: 0.3s; font-size: 14px; user-select: none; }
+        .track-num { font-size: 10px; color: #8ea8c9; font-weight: 800; letter-spacing: 1px; opacity: 0.7; }
+        
+        .fixed-btn { position: fixed; left: 30px; width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 9999; text-decoration: none; top: 85px; }
+        
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        h2 { color: #8ea8c9; margin-bottom: 30px; letter-spacing: 3px; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #eee; border-radius: 15px; box-sizing: border-box; font-size: 0.9rem; outline: none; }
+        button { background: #8ea8c9; color: white; border: none; padding: 12px 30px; border-radius: 50px; cursor: pointer; font-weight: 700; transition: 0.3s; width: 100%; }
+        button:hover { background: #7baaff; }
+        .post { background: #f8faff; padding: 20px; border-radius: 20px; margin-top: 20px; text-align: left; border: 1px solid #eef2f6; }
     </style>
 </head>
 <body>
+    <div class="bgm-player">
+        <div class="visualizer" id="visualizer" onclick="toggleMusic()"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+        <div class="control-group"><div class="track-num" id="track-info">01</div><div class="btn-icon" onclick="nextMusic()">→</div></div>
+        <audio id="main-bgm" onended="nextMusic()"><source id="audio-source" src="bgm1.mp3" type="audio/mpeg"></audio>
+    </div>
+    <a href="index.html" class="fixed-btn">🏠</a>
 
-    <a href="index.html" class="fixed-btn" style="top: 20px;">🏠</a>
-
-    <div class="board-card">
-        <h2 style="color: #333; margin-bottom: 25px;">💬 익명 한줄평</h2>
-        
-        <div style="margin-bottom: 30px;">
-            <textarea id="input-text" placeholder="내용을 입력해주세요." style="width: 100%; height: 80px; border: 1px solid #eee; border-radius: 12px; padding: 12px; box-sizing: border-box;"></textarea>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                <input type="password" id="input-pw" placeholder="암호" style="width: 100px; padding: 8px; border: 1px solid #eee; border-radius: 8px;">
-                <button onclick="savePost()" style="background: #7baaff; color: white; border: none; padding: 10px 30px; border-radius: 10px; font-weight: bold; cursor: pointer;">등록하기</button>
-            </div>
+    <div class="container">
+        <h2>GUESTBOOK</h2>
         </div>
 
-        <div id="display-list"></div>
-    </div>
-
     <script>
-        const MASTER_KEY = "1234";
-
-        function savePost() {
-            const txt = document.getElementById('input-text').value;
-            const pw = document.getElementById('input-pw').value;
-            
-            if(!txt) {
-                alert("내용을 입력해주세요!");
-                return;
-            }
-
-            const isAdmin = (pw === MASTER_KEY);
-            const list = document.getElementById('display-list');
-            const item = document.createElement('div');
-            item.className = "msg-box";
-            
-            item.innerHTML = `
-                <div>${isAdmin ? '<span class="admin-tag">[관리자]</span>' : '<b>익명</b>'}</div>
-                <div style="margin-top:8px; font-size:14px;">${txt}</div>
-                <div style="margin-top:10px;">
-                    <button onclick="this.closest('.msg-box').remove()" style="color:red; border:none; background:none; cursor:pointer; font-size:11px;">삭제</button>
-                    ${isAdmin ? '<button onclick="addReply(this)" style="color:#7baaff; border:none; background:none; cursor:pointer; font-size:11px; margin-left:10px;">답글</button>' : ''}
-                </div>
-                <div class="reply-wrap"></div>
-            `;
-
-            list.prepend(item);
-            document.getElementById('input-text').value = "";
-            document.getElementById('input-pw').value = "";
-        }
-
-        function addReply(btn) {
-            const comment = prompt("관리자 답글을 입력하세요.");
-            if(comment) {
-                const wrap = btn.parentElement.nextElementSibling;
-                wrap.innerHTML += `<div style="font-size:13px; margin-top:5px; padding-left:10px; border-left:2px solid #7baaff;"><b>↳ 관리자:</b> ${comment}</div>`;
-            }
-        }
+        const playlist = ["bgm1.mp3", "bgm2.mp3", "bgm3.mp3"]; let currentTrack = 0;
+        const music = document.getElementById('main-bgm'); const source = document.getElementById('audio-source');
+        const trackInfo = document.getElementById('track-info'); const visualizer = document.getElementById('visualizer');
+        function toggleMusic() { if (music.paused) { music.play(); visualizer.classList.add('playing'); } else { music.pause(); visualizer.classList.remove('playing'); } }
+        function nextMusic() { currentTrack = (currentTrack + 1) % playlist.length; source.src = playlist[currentTrack]; music.load(); music.play(); trackInfo.innerText = (currentTrack + 1).toString().padStart(2, '0'); visualizer.classList.add('playing'); }
     </script>
 </body>
 </html>

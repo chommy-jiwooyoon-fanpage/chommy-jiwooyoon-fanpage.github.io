@@ -4,72 +4,78 @@
     <meta charset="UTF-8">
     <title>익명게시판</title>
     <style>
-        /* 기본 여백 제거 및 배경색 통일 */
         body { margin: 0; padding: 0; background: #f4f7f9; min-height: 100vh; display: flex; flex-direction: column; align-items: center; font-family: 'Apple SD Gothic Neo', sans-serif; }
 
-        /* [핵심 1] 좌측 상단 메뉴 위치 - 9.JPG와 1px 오차 없이 일치 */
+        /* [핵심] 좌측 상단 메뉴 위치 - 11번 사진(메인)과 동일하게 고정 */
         .side-nav { 
             position: fixed; 
-            left: 20px; /* 9.JPG 여백 기준 */
-            top: 25px;  /* 9.JPG 상단 여백 기준 */
+            left: 18px; 
+            top: 22px; 
             display: flex; 
             flex-direction: column; 
-            gap: 12px; 
+            gap: 10px; 
             z-index: 10000; 
         }
 
-        /* 9.JPG 상단 바 디테일 (반투명도 및 폰트색상) */
+        /* 메뉴 바 디자인 (11번 사진 기준) */
         .top-menu-bar {
-            width: 105px; height: 42px; 
-            background: white; border-radius: 25px; 
+            width: 95px; height: 38px; 
+            background: white; border-radius: 20px; 
             display: flex; align-items: center; justify-content: space-around;
-            padding: 0 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            font-size: 0.8rem; color: #a5b8d0; font-weight: bold;
-            margin-bottom: 3px;
+            padding: 0 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            font-size: 0.75rem; color: #a5b8d0; font-weight: bold;
+            margin-bottom: 2px;
         }
 
-        /* 9.JPG 원형 아이콘 크기 및 정렬 */
+        /* 엑박 방지: 원형 아이콘 크기 및 정렬 */
         .icon-circle { 
-            width: 48px; height: 48px; 
+            width: 44px; height: 44px; 
             background: white; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            text-decoration: none;
         }
-        .icon-circle img { width: 24px; height: 24px; object-fit: contain; }
+        /* 이미지 크기 고정 */
+        .icon-circle img { width: 22px; height: 22px; object-fit: contain; }
 
-        /* [핵심 2] 우측 하단 BGM - 7.JPG의 메인과 똑같은 블랙 스타일 */
+        /* [핵심] 우측 하단 BGM - 7, 11번 사진 속 블랙 원형 버튼 재현 */
         .bgm-controls { position: fixed; right: 20px; bottom: 25px; display: flex; gap: 8px; z-index: 10000; }
         .bgm-btn { 
             width: 42px; height: 42px; 
-            background: #111; /* 9.JPG 스타일 반영 */
+            background: #111; /* 영상 및 사진 속 진한 블랙 */
             border-radius: 50%; border: none; color: white; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
+        .bgm-btn i { font-style: normal; font-size: 1rem; }
 
-        /* 게시판 본문 (4.JPG 스타일 복원) */
-        .main-title { margin-top: 120px; margin-bottom: 45px; font-size: 1.7rem; color: #a5b8d0; font-weight: 800; letter-spacing: 6px; }
-        .board-container { width: 92%; max-width: 630px; background: white; border-radius: 25px; padding: 40px; box-shadow: 0 15px 45px rgba(0,0,0,0.03); }
-        textarea { width: 100%; height: 130px; border: 1px solid #f0f2f5; border-radius: 15px; padding: 22px; resize: none; box-sizing: border-box; font-size: 1rem; color: #444; background: #fafbfc; }
-        .btn-group { display: flex; justify-content: flex-end; gap: 15px; margin-top: 18px; }
-        .btn { padding: 10px 28px; border: none; border-radius: 25px; cursor: pointer; font-size: 0.9rem; font-weight: 700; transition: opacity 0.2s; }
-        .btn-reg { background: #a5b8d0; color: white; } .btn-del { background: #f2f4f7; color: #b5c4d6; }
+        /* 게시판 본문 (4번 사진 스타일) */
+        .main-title { margin-top: 110px; margin-bottom: 40px; font-size: 1.6rem; color: #a5b8d0; font-weight: 800; letter-spacing: 6px; }
+        .board-container { width: 90%; max-width: 620px; background: white; border-radius: 25px; padding: 35px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
+        textarea { width: 100%; height: 120px; border: 1px solid #f0f2f5; border-radius: 12px; padding: 18px; resize: none; box-sizing: border-box; font-size: 0.95rem; color: #444; background: #fafbfc; font-family: inherit; }
+        .btn-group { display: flex; justify-content: flex-end; gap: 12px; margin-top: 15px; }
+        .btn { padding: 9px 25px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 700; }
+        .btn-reg { background: #a5b8d0; color: white; } .btn-del { background: #f1f4f7; color: #bccadb; }
 
-        .back-link { position: fixed; bottom: 40px; text-decoration: none; color: #a5b8d0; font-size: 0.8rem; font-weight: 800; letter-spacing: 1px; }
+        .back-link { position: fixed; bottom: 40px; text-decoration: none; color: #a5b8d0; font-size: 0.8rem; font-weight: 800; }
     </style>
 </head>
 <body>
 
     <div class="side-nav">
         <div class="top-menu-bar"><span>|||</span> <span>01</span> <span>→</span></div>
-        <a href="index.html" class="icon-circle"><img src="home.png" alt="Home"></a> 
-        <a href="guestbook.html" class="icon-circle"><img src="board.png" alt="Board"></a> 
+        
+        <a href="index.html" class="icon-circle">
+            <img src="home.png" onerror="this.src='https://img.icons8.com/color/48/home--v1.png'">
+        </a> 
+        <a href="guestbook.html" class="icon-circle">
+            <img src="board.png" onerror="this.src='https://img.icons8.com/color/48/edit-file.png'">
+        </a> 
     </div>
 
     <div class="bgm-controls">
-        <button class="bgm-btn">🎵</button>
-        <button class="bgm-btn">✖</button>
+        <button class="bgm-btn"><i>🎵</i></button>
+        <button class="bgm-btn"><i>✖</i></button>
     </div>
     
     <h1 class="main-title">익 명 게 시 판</h1>
@@ -82,8 +88,8 @@
         </div>
 
         <div class="comment-list">
-            <div style="font-size: 0.75rem; color: #ccd6e0; margin-bottom: 10px; font-weight: 600;">ANONYMOUS | 2026-03-06</div>
-            <div style="color: #667c99; font-size: 0.95rem;">이제 아이콘 위치가 9번 사진이랑 똑같이 고정되었습니다!</div>
+            <div style="font-size: 0.75rem; color: #ccd6e0; margin-bottom: 8px; font-weight: 600;">ANONYMOUS | 2026-03-06</div>
+            <div style="color: #667c99; font-size: 0.95rem;">메인 화면 아이콘과 위치, BGM 버튼까지 완벽하게 통일되었습니다.</div>
         </div>
     </div>
 

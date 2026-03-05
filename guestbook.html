@@ -6,38 +6,62 @@
     <style>
         body { margin: 0; padding: 0; background: #eef2f6; min-height: 100vh; display: flex; flex-direction: column; align-items: center; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
         
-        /* [핵심] 사이드 메뉴 아이콘 영역 - 999로 설정해서 절대 안 사라지게 함 */
+        /* [고정 1] 좌측 상단 메뉴 - 아이콘 사이 간격을 20px로 넓혀서 시원하게 정렬 */
         .side-nav { 
             position: fixed; 
-            left: 20px; 
-            top: 20px; 
+            left: 25px; 
+            top: 25px; 
             display: flex; 
             flex-direction: column; 
-            gap: 15px; 
+            gap: 20px; /* 아이콘 간격 늘림 */
             z-index: 999; 
         }
         .nav-btn { 
-            width: 45px; height: 45px; 
+            width: 48px; height: 48px; /* 크기 살짝 키움 */
             background: white; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
-            text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-            font-size: 1.2rem;
+            text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            font-size: 1.3rem;
+            transition: transform 0.2s ease;
         }
+        .nav-btn:hover { transform: scale(1.1); }
 
-        .main-title { margin-top: 100px; margin-bottom: 35px; font-size: 1.7rem; color: #8ea8c9; font-weight: 800; letter-spacing: 5px; text-align: center; }
-        .board-container { width: 90%; max-width: 600px; background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        textarea { width: 100%; height: 100px; border: 1px solid #f0f0f0; border-radius: 12px; padding: 15px; resize: none; box-sizing: border-box; font-size: 0.9rem; color: #666; font-family: inherit; }
-        .btn-group { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
-        .btn { padding: 8px 22px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-family: inherit; font-weight: 600; }
-        .btn-reg { background: #8ea8c9; color: white; } 
-        .btn-del { background: #f8f8f8; color: #aaa; }  
+        /* [고정 2] 우측 하단 BGM 컨트롤러 - 겹치지 않게 가로로 나란히 정렬 */
+        .bgm-controls { 
+            position: fixed; 
+            right: 25px; 
+            bottom: 25px; 
+            display: flex; 
+            gap: 12px; /* 재생/정지 버튼 사이의 황금 간격 */
+            z-index: 999; 
+        }
+        .bgm-btn { 
+            width: 38px; height: 38px; 
+            background: #ff4d6d; 
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            color: white; border: none; cursor: pointer; font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(255, 77, 109, 0.3);
+            transition: all 0.2s ease;
+        }
+        .bgm-btn:hover { background: #ff758f; transform: translateY(-3px); }
 
-        /* 댓글 리스트 - 익명 | 날짜 정보 사수 */
-        .comment-list { margin-top: 30px; border-top: 1px solid #f5f5f5; padding-top: 25px; }
-        .comment-item { padding: 15px 0; border-bottom: 1px solid #fbfcfe; color: #555; font-size: 0.95rem; }
-        .comment-meta { font-size: 0.75rem; color: #bbb; margin-bottom: 6px; font-weight: 600; }
+        /* 제목 및 게시판 구성 (30.JPG 스타일 사수) */
+        .main-title { margin-top: 110px; margin-bottom: 40px; font-size: 1.7rem; color: #8ea8c9; font-weight: 800; letter-spacing: 5px; text-align: center; }
+        .board-container { width: 92%; max-width: 620px; background: white; border-radius: 25px; padding: 35px; box-shadow: 0 15px 35px rgba(0,0,0,0.04); }
+        textarea { width: 100%; height: 110px; border: 1px solid #f2f2f2; border-radius: 15px; padding: 18px; resize: none; box-sizing: border-box; font-size: 0.95rem; color: #555; font-family: inherit; background: #fafafa; }
+        .btn-group { display: flex; justify-content: flex-end; gap: 12px; margin-top: 15px; }
+        .btn { padding: 10px 25px; border: none; border-radius: 25px; cursor: pointer; font-size: 0.85rem; font-family: inherit; font-weight: 700; transition: opacity 0.2s; }
+        .btn-reg { background: #8ea8c9; color: white; } .btn-del { background: #f0f0f0; color: #999; }
+        .btn:hover { opacity: 0.8; }
 
-        .back-link { position: fixed; bottom: 40px; text-decoration: none; color: #8ea8c9; font-size: 0.8rem; font-weight: 700; }
+        /* 댓글 리스트 - 쫌좀님의 '익명|날짜' 정보를 위한 깔끔한 여백 */
+        .comment-list { margin-top: 35px; border-top: 1px solid #f8f8f8; padding-top: 30px; }
+        .comment-item { padding: 18px 0; border-bottom: 1px solid #fbfcfe; }
+        .comment-meta { font-size: 0.75rem; color: #ccc; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px; }
+        .comment-text { color: #555; font-size: 0.95rem; line-height: 1.5; }
+
+        .back-link { position: fixed; bottom: 40px; text-decoration: none; color: #8ea8c9; font-size: 0.8rem; font-weight: 800; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -46,11 +70,16 @@
         <a href="index.html" class="nav-btn">🏠</a>
         <a href="guestbook.html" class="nav-btn">📝</a> 
     </div>
+
+    <div class="bgm-controls">
+        <button class="bgm-btn" title="재생">🎵</button>
+        <button class="bgm-btn" title="정지">✖</button>
+    </div>
     
     <h1 class="main-title">익 명 게 시 판</h1>
 
     <div class="board-container">
-        <textarea placeholder="익명으로 자유롭게 남겨주세요."></textarea>
+        <textarea placeholder="마음을 담은 메시지를 남겨주세요."></textarea>
         <div class="btn-group">
             <button class="btn btn-del">삭제</button>
             <button class="btn btn-reg">등록</button>
@@ -58,8 +87,8 @@
 
         <div class="comment-list">
             <div class="comment-item">
-                <div class="comment-meta">익명 | 2026-03-06</div>
-                <div>이제 아이콘이 안 사라질 거예요!</div>
+                <div class="comment-meta">ANONYMOUS | 2026. 03. 06</div>
+                <div class="comment-text">아이콘들이 겹치지 않고 정렬이 아주 깔끔하네요!</div>
             </div>
         </div>
     </div>

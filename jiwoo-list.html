@@ -5,54 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>한지우 FILMOGRAPHY</title>
     <style>
-        body { 
-            font-family: 'Apple SD Gothic Neo', sans-serif; 
-            text-align: center; background: #fff; 
-            margin: 0; padding: 40px 20px; 
-        }
-        .header-title { font-size: 1.8rem; font-weight: 800; color: #333; margin-bottom: 30px; }
-        
-        /* 쫌좀님이 원하신 격자형 타일 레이아웃 */
-        .work-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 한 줄에 2개씩 */
-            gap: 20px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .work-item {
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        /* 작품 아이콘 박스 */
-        .work-icon {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background: #f8f9fa;
-            border-radius: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-bottom: 12px;
-            border: 1px solid #eee;
-        }
-
-        .work-item:hover .work-icon {
-            transform: translateY(-5px);
-            background: #7baaff;
-            color: white;
-            border-color: #7baaff;
-        }
-
+        body { font-family: 'Apple SD Gothic Neo', sans-serif; text-align: center; background: #fff; margin: 0; padding: 40px 20px; }
+        .header-title { font-size: 1.8rem; font-weight: 800; color: #333; margin-bottom: 30px; margin-top: 40px; }
+        .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 500px; margin: 0 auto; }
+        .work-item { cursor: pointer; transition: 0.3s; }
+        .work-icon { width: 100%; aspect-ratio: 1 / 1; background: #f8f9fa; border-radius: 25px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 12px; border: 1px solid #eee; }
+        .work-item:hover .work-icon { transform: translateY(-5px); background: #7baaff; color: white; border-color: #7baaff; }
         .work-title { font-size: 0.95rem; font-weight: 700; color: #333; }
         .back-link { margin-top: 60px; display: block; text-decoration: none; color: #bbb; font-size: 0.8rem; }
     </style>
 </head>
 <body>
+
+    <div onclick="location.href='index.html'" style="position: fixed; top: 20px; left: 20px; width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 9999;">🏠</div>
 
     <div class="header-title">HAN JI WOO</div>
 
@@ -61,7 +26,6 @@
             <div class="work-icon">🎬</div>
             <div class="work-title">ONnOFF 3</div>
         </div>
-
         <div class="work-item" onclick="location.href='jiwoo-work2.html'">
             <div class="work-icon">🎞️</div>
             <div class="work-title">다음 작품</div>
@@ -69,14 +33,15 @@
     </div>
 
     <a href="menu.html" class="back-link">← SELECT ACTOR 화면으로</a>
-<div id="board-placeholder"></div>
-<script>
-    fetch('board.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('board-placeholder').innerHTML = data;
-        });
-</script>
+
+    <div id="board-placeholder"></div>
+    <script>
+        fetch('board.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('board-placeholder').innerHTML = data;
+            });
+    </script>
+
 </body>
-    <div onclick="location.href='index.html'" style="position: fixed; top: 20px; left: 20px; width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 9999;">🏠</div>
 </html>

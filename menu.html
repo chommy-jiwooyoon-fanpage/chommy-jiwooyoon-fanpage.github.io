@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELECT ACTOR</title>
+    <style>
+        body { 
+            font-family: 'Apple SD Gothic Neo', sans-serif; 
+            text-align: center; background: #f9f9f9; 
+            margin: 0; padding: 50px 20px; 
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .menu-container { width: 100%; max-width: 450px; }
+        .menu-card {
+            background: white; border-radius: 20px; padding: 18px 25px; margin-bottom: 20px;
+            display: flex; align-items: center; cursor: pointer;
+            transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .menu-card:hover { transform: translateY(-5px); border: 1px solid #7baaff; }
+        .menu-icon { font-size: 1.8rem; margin-right: 20px; }
+        .menu-text { flex-grow: 1; text-align: left; }
+        .sub-label { font-size: 0.7rem; color: #7baaff; font-weight: 800; letter-spacing: 1px; }
+        .main-label { font-size: 1.1rem; font-weight: 600; color: #333; margin-top: 4px; }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <h2 style="color: #222; margin-bottom: 40px; font-weight: 800;">CHOICE ACTOR</h2>
+        
+        <div class="menu-card" onclick="location.href='jiwoo-list.html'">
+            <div class="menu-icon">🎬</div>
+            <div class="menu-text">
+                <span class="sub-label">FILMOGRAPHY</span>
+                <div class="main-label">한지우 작품집</div>
+            </div>
+        </div>
+
+        <div class="menu-card" onclick="location.href='joyoon-list.html'">
+            <div class="menu-icon">🎞️</div>
+            <div class="menu-text">
+                <span class="sub-label">FILMOGRAPHY</span>
+                <div class="main-label">조윤 작품집</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

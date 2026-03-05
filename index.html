@@ -68,6 +68,13 @@
             <a href="https://instagram.com/chommy_9" target="_blank" class="btn instagram">Instagram @chommy_9</a>
         </div>
     </div>
-
+<div id="board-placeholder"></div>
+<script>
+    fetch('board.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('board-placeholder').innerHTML = data;
+        });
+</script>
 </body>
 </html>

@@ -9,6 +9,13 @@
         .entrance-banner { width: 90%; max-width: 600px; margin: 30px auto 10px; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .entrance-banner img { width: 100%; height: auto; display: block; }
         .entrance-icon { font-size: 1.8rem; margin: 20px 0; color: #7baaff; cursor: pointer; }
+        
+        /* SNS 버튼 스타일 - 오른쪽 하단 고정 */
+        .sns-container { position: fixed; bottom: 30px; right: 30px; display: flex; gap: 12px; z-index: 9999; }
+        .sns-btn { text-decoration: none; color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: 0.2s; }
+        .sns-btn:hover { transform: scale(1.1); }
+        .x-btn { background: #000; border-radius: 50%; } /* 트위터(X)는 원형 */
+        .ig-btn { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); } /* 인스타는 그라디언트 사각형 */
     </style>
 </head>
 <body>
@@ -16,9 +23,9 @@
     <div class="entrance-banner"><img src="main.jpg" alt="메인 배너"></div>
     <div class="entrance-icon" onclick="location.href='menu.html'">✔️</div>
 
-    <div style="position: fixed; bottom: 15px; right: 15px; display: flex; gap: 8px; z-index: 10000; opacity: 0.5;">
-        <a href="https://twitter.com/zzomzom_" target="_blank" style="text-decoration: none; font-size: 11px; color: #888; background: rgba(255,255,255,0.7); padding: 3px 6px; border-radius: 4px; border: 1px solid #ddd;">X</a>
-        <a href="https://instagram.com/chommy_9" target="_blank" style="text-decoration: none; font-size: 11px; color: #888; background: rgba(255,255,255,0.7); padding: 3px 6px; border-radius: 4px; border: 1px solid #ddd;">IG</a>
+    <div class="sns-container">
+        <a href="https://twitter.com/zzomzom_" target="_blank" class="sns-btn x-btn">X</a>
+        <a href="https://instagram.com/chommy_9" target="_blank" class="sns-btn ig-btn">IG</a>
     </div>
 
     <div id="board-placeholder"></div>
@@ -29,15 +36,6 @@
                 document.getElementById('board-placeholder').innerHTML = data;
             });
     </script>
-<div style="position: fixed; bottom: 30px; right: 30px; display: flex; gap: 15px; z-index: 10000;">
-    <a href="https://twitter.com/zzomzom_" target="_blank" style="text-decoration: none; font-size: 16px; color: white; background: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">X</a>
-    <a href="https://instagram.com/chommy_9" target="_blank" style="text-decoration: none; font-size: 16px; color: white; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); width: 35px; height: 35px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">IG</a>
-</div>
-    <a href="https://twitter.com/zzomzom_" target="_blank" style="text-decoration: none; font-size: 12px; color: #7baaff; background: white; padding: 6px 10px; border-radius: 8px; border: 1px solid #7baaff; font-weight: 800; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">X</a>
-    <a href="https://instagram.com/chommy_9" target="_blank" style="text-decoration: none; font-size: 12px; color: #7baaff; background: white; padding: 6px 10px; border-radius: 8px; border: 1px solid #7baaff; font-weight: 800; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">IG</a>
-</div>
-        <a href="https://twitter.com/zzomzom_" target="_blank" style="text-decoration: none; font-size: 11px; color: #888; background: rgba(255,255,255,0.7); padding: 3px 6px; border-radius: 4px; border: 1px solid #ddd;">X</a>
-        <a href="https://instagram.com/chommy_9" target="_blank" style="text-decoration: none; font-size: 11px; color: #888; background: rgba(255,255,255,0.7); padding: 3px 6px; border-radius: 4px; border: 1px solid #ddd;">IG</a>
-    </div>
+
 </body>
 </html>

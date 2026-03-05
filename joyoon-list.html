@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>조윤 FILMOGRAPHY</title>
+    <style>
+        body { 
+            font-family: 'Apple SD Gothic Neo', sans-serif; 
+            text-align: center; background: #fff; 
+            margin: 0; padding: 40px 20px; 
+        }
+        .header-title { font-size: 1.8rem; font-weight: 800; color: #333; margin-bottom: 30px; }
+        
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .work-item { cursor: pointer; transition: 0.3s; }
+
+        .work-icon {
+            width: 100%; aspect-ratio: 1 / 1;
+            background: #fffafa; /* 조윤님은 살짝 핑크빛 베이지로 차별화 */
+            border-radius: 25px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 12px;
+            border: 1px solid #fce4e4;
+        }
+
+        .work-item:hover .work-icon {
+            transform: translateY(-5px);
+            background: #ff6b6b; /* 조윤님은 포인트 컬러를 하트색으로! */
+            color: white;
+            border-color: #ff6b6b;
+        }
+
+        .work-title { font-size: 0.95rem; font-weight: 700; color: #333; }
+        .back-link { margin-top: 60px; display: block; text-decoration: none; color: #bbb; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <div class="header-title">JO YOON</div>
+
+    <div class="work-grid">
+        <div class="work-item" onclick="location.href='joyoon-post-1.html'">
+            <div class="work-icon">🎞️</div>
+            <div class="work-title">작품 01</div>
+        </div>
+
+        <div class="work-item" onclick="location.href='joyoon-post-2.html'">
+            <div class="work-icon">🎬</div>
+            <div class="work-title">작품 02</div>
+        </div>
+    </div>
+
+    <a href="menu.html" class="back-link">← SELECT ACTOR 화면으로</a>
+
+</body>
+</html>

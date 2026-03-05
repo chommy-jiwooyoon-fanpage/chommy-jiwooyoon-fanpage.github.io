@@ -5,14 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>한지우 x 조윤 팬페이지</title>
     <style>
-        body { font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; text-align: center; background-color: #fdfdfd; margin: 0; padding: 0; }
-        header { background: linear-gradient(135deg, #fff5f5 0%, #f0f4ff 100%); padding: 80px 20px; border-bottom: 1px solid #eee; }
-        .actor-name { font-size: 3rem; font-weight: 800; color: #222; }
-        .heart { color: #ff6b6b; }
-        .sns-container { margin-top: 50px; }
-        .btn { display: inline-block; padding: 14px 28px; margin: 10px; border-radius: 30px; text-decoration: none; font-weight: 600; color: white; transition: 0.3s; }
-        .twitter { background-color: #1DA1F2; }
-        .instagram { background-color: #E1306C; }
+        /* 대문 섹션: 화면의 60% 정도만 차지하도록 고정 */
+.entrance {
+    width: 100%;
+    height: 60vh; /* 화면 높이의 60%만 사용 (밀림 방지 핵심) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    overflow: hidden; /* 사진이 영역 밖으로 삐져나오지 않게 차단 */
+}
+
+.entrance img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 사진이 찌그러지지 않고 영역에 꽉 차게 맞춤 */
+    cursor: pointer;
+}
     </style>
 </head>
 <body>

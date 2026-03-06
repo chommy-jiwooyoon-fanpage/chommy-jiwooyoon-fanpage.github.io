@@ -10,7 +10,7 @@
         /* [1] 인트로 영상 레이어 */
         #intro-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 100; cursor: pointer; transition: opacity 1s ease;
+            z-index: 100; cursor: pointer; transition: opacity 0.8s ease;
         }
         .intro-video { width: 100%; height: 100%; object-fit: cover; }
         .click-notice {
@@ -19,24 +19,27 @@
             animation: blink 2s infinite;
         }
 
-        /* [2] 메인 대문 사진 레이어 (처음엔 숨김) */
+        /* [2] 쫌좀님의 '진짜' 메인 사진 대문 (board.png 사용) */
         #main-content {
             display: none; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('board.png'); /* 쫌좀님의 메인 사진 */
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('board.png'); /* 쫌좀님의 메인 사진 배경 */
             background-size: cover; background-position: center;
             flex-direction: column; justify-content: center; align-items: center;
+            animation: fadeIn 1.5s ease;
         }
 
-        .main-title { font-size: 3.5rem; color: white; font-weight: 800; letter-spacing: 15px; margin-bottom: 40px; }
+        .main-title { font-size: 3.5rem; color: white; font-weight: 800; letter-spacing: 15px; margin-bottom: 40px; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .menu-container { display: flex; gap: 30px; }
         .menu-btn {
-            text-decoration: none; color: white; font-size: 0.9rem; font-weight: bold;
+            text-decoration: none; color: white; font-size: 0.9rem; font-weight: bold; letter-spacing: 4px;
             padding: 12px 35px; border: 1px solid white; border-radius: 30px;
-            background: rgba(255,255,255,0.1); backdrop-filter: blur(5px); transition: 0.4s;
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); transition: 0.4s;
         }
-        .menu-btn:hover { background: white; color: black; }
+        .menu-btn:hover { background: white; color: black; transform: translateY(-3px); }
 
+        /* 애니메이션 효과 */
         @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -61,19 +64,15 @@
         const intro = document.getElementById('intro-layer');
         const main = document.getElementById('main-content');
 
-        // 메인 화면으로 전환하는 함수
         function showMain() {
             intro.style.opacity = '0';
             setTimeout(() => {
                 intro.style.display = 'none';
                 main.style.display = 'flex';
-            }, 1000);
+            }, 800);
         }
 
-        // 영상이 다 끝나면 자동으로 메인 이동
-        video.onended = function() {
-            showMain();
-        };
+        video.onended = function() { showMain(); };
     </script>
 
 </body>

@@ -3,60 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAN JIWOO FANPAGE</title>
+    <title>HAN JI WOO x CHO YOON</title>
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; font-family: 'Apple SD Gothic Neo', sans-serif; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Apple SD Gothic Neo', sans-serif; background-color: #f0f2f5; }
 
         /* [1] 인트로 영상 레이어 */
         #intro-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 100; cursor: pointer; transition: opacity 0.8s ease;
+            z-index: 1000; background: #000; cursor: pointer;
         }
-        .intro-video { width: 100%; height: 100%; object-fit: cover; }
-        .click-notice {
-            position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
-            color: white; font-size: 0.9rem; letter-spacing: 2px; opacity: 0.7;
-            animation: blink 2s infinite;
-        }
+        .intro-video { width: 100%; height: 100%; object-fit: contain; } /* 영상 비율 유지 */
 
-        /* [2] 쫌좀님의 '진짜' 메인 사진 대문 (board.png 사용) */
+        /* [2] 쫌좀님이 찾으시던 그 메인 화면 (1.JPG 스타일) */
         #main-content {
             display: none; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('board.png'); /* 쫌좀님의 메인 사진 배경 */
-            background-size: cover; background-position: center;
+            background: url('1.JPG') no-repeat center center; /* 1.JPG를 배경으로 */
+            background-size: cover;
             flex-direction: column; justify-content: center; align-items: center;
-            animation: fadeIn 1.5s ease;
         }
 
-        .main-title { font-size: 3.5rem; color: white; font-weight: 800; letter-spacing: 15px; margin-bottom: 40px; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .menu-container { display: flex; gap: 30px; }
-        .menu-btn {
-            text-decoration: none; color: white; font-size: 0.9rem; font-weight: bold; letter-spacing: 4px;
-            padding: 12px 35px; border: 1px solid white; border-radius: 30px;
-            background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); transition: 0.4s;
+        /* 1.JPG 화면에 있던 ENTER 버튼 스타일 */
+        .enter-btn {
+            margin-top: 350px; /* 1.JPG 이미지 버튼 위치에 맞게 조절 */
+            padding: 10px 40px;
+            border: 2px solid #a5b8d0;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.8);
+            color: #a5b8d0;
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: 0.3s;
         }
-        .menu-btn:hover { background: white; color: black; transform: translateY(-3px); }
-
-        /* 애니메이션 효과 */
-        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .enter-btn:hover { background: #a5b8d0; color: white; }
     </style>
 </head>
 <body>
 
     <div id="intro-layer" onclick="showMain()">
-        <video id="myVideo" autoplay muted playsinline class="intro-video">
+        <video id="myVideo" autoplay playsinline class="intro-video">
             <source src="promo.mp4" type="video/mp4">
         </video>
-        <div class="click-notice">CLICK TO ENTER</div>
     </div>
 
     <div id="main-content">
-        <div class="main-title">HAN JIWOO</div>
-        <div class="menu-container">
-            <a href="jiwoo-list.html" class="menu-btn">VIDEO LIST</a>
-            <a href="guestbook.html" class="menu-btn">GUESTBOOK</a>
-        </div>
+        <a href="jiwoo-list.html" class="enter-btn">ENTER</a>
     </div>
 
     <script>
@@ -64,15 +55,22 @@
         const intro = document.getElementById('intro-layer');
         const main = document.getElementById('main-content');
 
+        // 메인 화면으로 전환하는 함수
         function showMain() {
-            intro.style.opacity = '0';
-            setTimeout(() => {
-                intro.style.display = 'none';
-                main.style.display = 'flex';
-            }, 800);
+            intro.style.display = 'none';
+            main.style.display = 'flex';
+            video.pause(); // 영상 멈춤
         }
 
-        video.onended = function() { showMain(); };
+        // 영상이 끝나면 자동으로 메인 이동
+        video.onended = function() {
+            showMain();
+        };
+
+        // 브라우저 정책상 첫 소리는 클릭이 필요할 수 있어 안내
+        window.onclick = function() {
+            video.muted = false; // 화면 어디든 클릭하면 소리 켜짐
+        }
     </script>
 
 </body>

@@ -2,94 +2,81 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> <title>HAN JI WOO x CHO YOON</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HAN JI WOO x CHO YOON</title>
     <style>
-        /* 모든 기기 공통 기초 설정 */
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
             overflow: hidden; background-color: #ebf1f6; 
-            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; 
-            -webkit-text-size-adjust: 100%; /* 아이폰 폰트 크기 고정 */
+            font-family: 'Apple SD Gothic Neo', sans-serif; 
         }
 
-        /* [1] 인트로 영상 (모든 기기 대응) */
+        /* [1] 인트로 영상 레이어 (영화관 느낌) */
         #intro-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1000; background: #000; display: none; justify-content: center; align-items: center;
-        }
-        .intro-video { 
-            width: 100%; height: 100%; object-fit: contain; /* 어떤 기종에서도 영상이 잘리지 않음 */
-            cursor: pointer; 
+            z-index: 1000; background: #000; display: none; 
+            justify-content: center; align-items: center;
         }
 
-        /* [2] 메인 대문 디자인 (유연한 레이아웃) */
+        /* 영상 프레임: 화면의 80~90%만 차지하게 하여 영화관 비율 생성 */
+        .video-wrapper {
+            width: 85%; /* 화면 너비의 85%만 사용 (여백 생성) */
+            max-width: 900px; /* PC에서도 너무 커지지 않게 제한 */
+            aspect-ratio: 16 / 9; /* 시네마틱 비율 유지 */
+            display: flex; justify-content: center; align-items: center;
+            background: #000;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5); /* 입체감 */
+        }
+
+        .intro-video { 
+            width: 100%; height: auto; 
+            cursor: pointer; 
+            border-radius: 4px; /* 미세한 라운드 처리로 고급스럽게 */
+        }
+
+        /* [2] 메인 대문 디자인 (반응형 유지) */
         #main-content {
             display: none; width: 100%; height: 100%;
             flex-direction: column; justify-content: center; align-items: center;
-            padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom); /* 아이폰 노치/하단바 대응 */
-            box-sizing: border-box;
+            padding: 20px; box-sizing: border-box;
         }
 
-        /* BGM 아이콘: 화면 안쪽으로 안전하게 배치 */
-        .bgm-controls {
-            position: absolute; top: 30px; left: 25px;
-            display: flex; align-items: center; z-index: 10;
-        }
+        .bgm-controls { position: absolute; top: 30px; left: 25px; }
         .bgm-btn {
             background: rgba(255, 255, 255, 0.85); border: 1px solid #ddd;
-            border-radius: 20px; padding: 6px 14px; font-size: 0.7rem;
-            color: #a5b8d0; cursor: pointer; white-space: nowrap;
+            border-radius: 20px; padding: 6px 14px; font-size: 0.7rem; color: #a5b8d0;
         }
 
-        /* [핵심] 반응형 대문 이미지 박스 (폰, 패드, PC 통합) */
         .img-container {
-            width: 85vw; /* 화면 너비의 85% 사용 (모바일/패드 대응) */
-            max-width: 480px; /* PC 같은 큰 화면에선 480px 고정 */
-            aspect-ratio: 16 / 9; /* 1.JPG의 황금 비율 유지 */
+            width: 85vw; max-width: 480px; aspect-ratio: 16 / 9;
             background: url('main.jpg') no-repeat center center;
             background-size: cover; border: 6px solid white;
             border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.06);
-            margin-bottom: 5vh; /* 화면 높이에 비례한 여백 */
+            margin-bottom: 5vh;
         }
 
-        .sub-title { 
-            font-size: clamp(0.65rem, 2vw, 0.8rem); /* 기기 크기에 따라 글자 크기 자동 조절 */
-            color: #a5b8d0; letter-spacing: 0.4em; 
-            margin-bottom: 6vh; text-transform: uppercase; text-align: center;
-        }
-
-        /* ENTER 버튼 */
+        .sub-title { font-size: clamp(0.65rem, 2vw, 0.8rem); color: #a5b8d0; letter-spacing: 0.4em; margin-bottom: 6vh; text-transform: uppercase; }
         .enter-btn {
-            padding: 12px 15%; /* 너비를 %로 주어 터치 영역 확보 */
-            max-width: 200px;
-            border: 1.5px solid #a5b8d0; border-radius: 35px;
+            padding: 12px 60px; border: 1.5px solid #a5b8d0; border-radius: 35px;
             background: white; color: #a5b8d0; text-decoration: none;
             font-size: 0.75rem; font-weight: bold; letter-spacing: 3px;
-            text-align: center; transition: all 0.3s ease;
-        }
-        .enter-btn:active { transform: scale(0.95); opacity: 0.8; } /* 터치 피드백 */
-
-        /* 아이패드/태블릿 이상 큰 화면용 미세 조정 */
-        @media (min-width: 768px) {
-            .img-container { border-width: 8px; border-radius: 30px; }
-            .enter-btn { padding: 12px 60px; }
         }
     </style>
 </head>
 <body>
 
     <div id="intro-layer">
-        <video id="myVideo" autoplay muted playsinline class="intro-video" onclick="handleVideoClick()">
-            <source src="promo.mp4" type="video/mp4">
-        </video>
+        <div class="video-wrapper">
+            <video id="myVideo" autoplay muted playsinline class="intro-video" onclick="handleVideoClick()">
+                <source src="promo.mp4" type="video/mp4">
+            </video>
+        </div>
     </div>
 
     <audio id="bgm" loop><source src="bgm.mp3" type="audio/mpeg"></audio>
 
     <div id="main-content">
-        <div class="bgm-controls">
-            <div class="bgm-btn">||| &nbsp; 01 &nbsp; →</div>
-        </div>
+        <div class="bgm-controls"><div class="bgm-btn">||| &nbsp; 01 &nbsp; →</div></div>
         <div class="img-container"></div>
         <div class="sub-title">ETERNAL SUNSHINE</div>
         <a href="menu.html" class="enter-btn">ENTER</a>
@@ -102,7 +89,6 @@
         const main = document.getElementById('main-content');
 
         const hasSeenIntro = sessionStorage.getItem('visited');
-
         if (!hasSeenIntro) {
             intro.style.display = 'flex';
             sessionStorage.setItem('visited', 'true');
@@ -112,11 +98,8 @@
         }
 
         function handleVideoClick() {
-            if (video.muted) {
-                video.muted = false;
-            } else {
-                showMain();
-            }
+            if (video.muted) { video.muted = false; } 
+            else { showMain(); }
         }
 
         function showMain() {
@@ -126,7 +109,6 @@
             main.style.display = 'flex';
             bgm.play().catch(e => {});
         }
-
         video.onended = function() { showMain(); };
     </script>
 </body>

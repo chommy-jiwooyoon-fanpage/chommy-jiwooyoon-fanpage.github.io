@@ -2,122 +2,90 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>HAN JI WOO x CHO YOON</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>JIWOO FAN BOARD</title>
     <style>
-        body, html { 
-            margin: 0; padding: 0; width: 100%; height: 100%; 
-            overflow: hidden; background-color: #ebf1f6; 
-            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; 
-            -webkit-font-smoothing: antialiased; /* 브라우저 글자 매끄럽게 */
-        }
-
-        /* [1] 시네마틱 인트로 레이어 */
-        #intro-layer {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1000; background: #000; display: none; 
-            justify-content: center; align-items: center;
-        }
-
-        /* 영화관 프레임: 전 기종/브라우저 통합 비율 */
-        .video-wrapper {
-            width: 88%; /* 여백을 위해 살짝 조절 */
-            max-width: 900px;
-            aspect-ratio: 16 / 9;
-            display: flex; justify-content: center; align-items: center;
-            background: #000;
-            box-shadow: 0 0 40px rgba(0,0,0,0.6);
-            will-change: transform; /* 끊김 방지 가속 */
-        }
-
-        .intro-video { 
-            width: 100%; height: auto; 
-            cursor: pointer; 
-            object-fit: contain;
-            /* 사파리/크롬 등 모든 브라우저 자동재생 최적화 */
-            -webkit-mask-image: -webkit-radial-gradient(white, black); /* 렌더링 오류 방지 */
-        }
-
-        /* [2] 메인 대문 디자인 (반응형) */
-        #main-content {
-            display: none; width: 100%; height: 100%;
-            flex-direction: column; justify-content: center; align-items: center;
-            padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom);
-            box-sizing: border-box;
-        }
-
-        .bgm-controls { position: absolute; top: 30px; left: 25px; }
-        .bgm-btn {
-            background: rgba(255, 255, 255, 0.85); border: 1px solid #ddd;
-            border-radius: 20px; padding: 6px 14px; font-size: 0.7rem; color: #a5b8d0;
-        }
-
-        .img-container {
-            width: 85vw; max-width: 480px; aspect-ratio: 16 / 9;
-            background: url('main.jpg') no-repeat center center;
-            background-size: cover; border: 6px solid white;
-            border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.06);
-            margin-bottom: 5vh;
-        }
-
-        .sub-title { font-size: clamp(0.65rem, 2vw, 0.8rem); color: #a5b8d0; letter-spacing: 0.4em; margin-bottom: 6vh; text-transform: uppercase; }
+        body { margin: 0; background-color: #ebf1f6; font-family: 'Apple SD Gothic Neo', sans-serif; }
         
-        .enter-btn {
-            padding: 12px 60px; border: 1.5px solid #a5b8d0; border-radius: 35px;
-            background: white; color: #a5b8d0; text-decoration: none;
-            font-size: 0.75rem; font-weight: bold; letter-spacing: 3px;
-            -webkit-tap-highlight-color: transparent; /* 모바일 터치 깜빡임 방지 */
+        /* [1] 게시판 전체 컨테이너 (반응형) */
+        .board-container {
+            width: 90%; max-width: 600px; /* 폰/패드/PC 통합 정렬 */
+            margin: 40px auto; padding: 20px;
+            background: white; border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
+
+        .board-title { color: #a5b8d0; text-align: center; letter-spacing: 3px; font-size: 1.2rem; margin-bottom: 25px; }
+
+        /* [2] 글 쓰기 영역 */
+        .write-section { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+        .input-box {
+            padding: 12px; border: 1.5px solid #f0f4f8; border-radius: 15px;
+            font-size: 0.9rem; outline: none; background: #f9fbfc;
+        }
+        .submit-btn {
+            background: #a5b8d0; color: white; border: none; padding: 12px;
+            border-radius: 15px; cursor: pointer; font-weight: bold; transition: 0.3s;
+        }
+        .submit-btn:active { transform: scale(0.98); }
+
+        /* [3] 모두가 보는 글 목록 영역 */
+        #post-list { display: flex; flex-direction: column; gap: 15px; }
+        .post-card {
+            background: #fdfdfd; padding: 15px; border-radius: 18px;
+            border-bottom: 2px solid #ebf1f6; position: relative;
+            animation: fadeIn 0.5s ease;
+        }
+        .post-content { font-size: 0.9rem; color: #555; line-height: 1.5; margin-bottom: 8px; }
+        .post-info { font-size: 0.7rem; color: #a5b8d0; display: flex; justify-content: space-between; }
+        .delete-btn { color: #ffb3b3; cursor: pointer; font-weight: bold; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div id="intro-layer">
-        <div class="video-wrapper">
-            <video id="myVideo" autoplay muted playsinline preload="auto" class="intro-video" onclick="handleVideoClick()">
-                <source src="promo.mp4" type="video/mp4">
-            </video>
+<div class="board-container">
+    <h2 class="board-title">GUEST BOOK</h2>
+
+    <div class="write-section">
+        <textarea id="postInput" class="input-box" rows="3" placeholder="지우님께 익명으로 메시지를 남겨보세요!"></textarea>
+        <button onclick="addPost()" class="submit-btn">등록하기</button>
+    </div>
+
+    <div id="post-list">
+        <div class="post-card">
+            <p class="post-content">오늘 지우님 영상 너무 예뻐요! 쫌좀님 감사합니다.</p>
+            <div class="post-info">
+                <span>익명팬 · 방금 전</span>
+                <span class="delete-btn">삭제</span>
+            </div>
         </div>
     </div>
+</div>
 
-    <audio id="bgm" loop preload="auto"><source src="bgm.mp3" type="audio/mpeg"></audio>
+<script>
+    // 쫌좀님! 지금 이 방식은 내 브라우저에만 저장되는 방식이에요.
+    // 다른 사람과 글을 공유하려면 'Firebase' 같은 DB를 연결해야 합니다.
+    function addPost() {
+        const input = document.getElementById('postInput');
+        if (!input.value.trim()) return alert("내용을 입력해주세요!");
 
-    <div id="main-content">
-        <div class="bgm-controls"><div class="bgm-btn">||| &nbsp; 01 &nbsp; →</div></div>
-        <div class="img-container"></div>
-        <div class="sub-title">ETERNAL SUNSHINE</div>
-        <a href="menu.html" class="enter-btn">ENTER</a>
-    </div>
+        const list = document.getElementById('post-list');
+        const newPost = document.createElement('div');
+        newPost.className = 'post-card';
+        newPost.innerHTML = `
+            <p class="post-content">${input.value}</p>
+            <div class="post-info">
+                <span>익명팬 · 방금 전</span>
+                <span class="delete-btn" onclick="this.parentElement.parentElement.remove()">삭제</span>
+            </div>
+        `;
+        
+        list.prepend(newPost); // 최신글이 위로
+        input.value = "";
+    }
+</script>
 
-    <script>
-        const video = document.getElementById('myVideo');
-        const bgm = document.getElementById('bgm');
-        const intro = document.getElementById('intro-layer');
-        const main = document.getElementById('main-content');
-
-        const hasSeenIntro = sessionStorage.getItem('visited');
-        if (!hasSeenIntro) {
-            intro.style.display = 'flex';
-            sessionStorage.setItem('visited', 'true');
-        } else {
-            intro.remove(); 
-            main.style.display = 'flex';
-        }
-
-        function handleVideoClick() {
-            if (video.muted) { video.muted = false; } 
-            else { showMain(); }
-        }
-
-        function showMain() {
-            video.pause();
-            video.src = ""; 
-            video.load();
-            intro.style.display = 'none';
-            main.style.display = 'flex';
-            bgm.play().catch(e => {});
-        }
-        video.onended = function() { showMain(); };
-    </script>
 </body>
 </html>

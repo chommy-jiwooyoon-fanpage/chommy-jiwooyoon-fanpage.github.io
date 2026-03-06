@@ -3,44 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>JIWOO FAN BOARD</title>
+    <title>JIWOO x Zzomjom BOARD</title>
     <style>
-        body { margin: 0; background-color: #ebf1f6; font-family: 'Apple SD Gothic Neo', sans-serif; }
+        body { margin: 0; background-color: #ebf1f6; font-family: 'Apple SD Gothic Neo', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .board-container { width: 92%; max-width: 600px; margin: 30px auto; padding: 20px; background: white; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); box-sizing: border-box; }
+        .board-title { color: #a5b8d0; text-align: center; letter-spacing: 3px; font-size: 1.1rem; margin-bottom: 25px; text-transform: uppercase; }
         
-        /* [1] 게시판 전체 컨테이너 (반응형) */
-        .board-container {
-            width: 90%; max-width: 600px; /* 폰/패드/PC 통합 정렬 */
-            margin: 40px auto; padding: 20px;
-            background: white; border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
+        /* 글쓰기 영역 */
+        .write-section { display: flex; flex-direction: column; gap: 12px; margin-bottom: 35px; }
+        .input-box { width: 100%; padding: 15px; border: 1.5px solid #f0f4f8; border-radius: 18px; font-size: 0.95rem; outline: none; background: #f9fbfc; box-sizing: border-box; resize: none; }
+        .submit-btn { background: #a5b8d0; color: white; border: none; padding: 14px; border-radius: 18px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 0.9rem; }
+        .submit-btn:active { transform: scale(0.96); background: #94a7bd; }
 
-        .board-title { color: #a5b8d0; text-align: center; letter-spacing: 3px; font-size: 1.2rem; margin-bottom: 25px; }
-
-        /* [2] 글 쓰기 영역 */
-        .write-section { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
-        .input-box {
-            padding: 12px; border: 1.5px solid #f0f4f8; border-radius: 15px;
-            font-size: 0.9rem; outline: none; background: #f9fbfc;
-        }
-        .submit-btn {
-            background: #a5b8d0; color: white; border: none; padding: 12px;
-            border-radius: 15px; cursor: pointer; font-weight: bold; transition: 0.3s;
-        }
-        .submit-btn:active { transform: scale(0.98); }
-
-        /* [3] 모두가 보는 글 목록 영역 */
-        #post-list { display: flex; flex-direction: column; gap: 15px; }
-        .post-card {
-            background: #fdfdfd; padding: 15px; border-radius: 18px;
-            border-bottom: 2px solid #ebf1f6; position: relative;
-            animation: fadeIn 0.5s ease;
-        }
-        .post-content { font-size: 0.9rem; color: #555; line-height: 1.5; margin-bottom: 8px; }
-        .post-info { font-size: 0.7rem; color: #a5b8d0; display: flex; justify-content: space-between; }
-        .delete-btn { color: #ffb3b3; cursor: pointer; font-weight: bold; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* 실시간 글 목록 */
+        #post-list { display: flex; flex-direction: column; gap: 18px; }
+        .post-card { background: #fff; padding: 18px; border-radius: 20px; border: 1px solid #f0f4f8; box-shadow: 0 4px 10px rgba(0,0,0,0.02); animation: fadeInUp 0.5s ease; position: relative; }
+        .post-content { font-size: 0.95rem; color: #444; line-height: 1.6; margin: 0 0 10px 0; white-space: pre-wrap; word-break: break-all; }
+        .post-info { font-size: 0.75rem; color: #cbd5e0; display: flex; justify-content: space-between; align-items: center; }
+        .del-btn { color: #ffb3b3; cursor: pointer; font-size: 0.7rem; border: none; background: none; padding: 5px; }
+        
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -49,42 +31,78 @@
     <h2 class="board-title">GUEST BOOK</h2>
 
     <div class="write-section">
-        <textarea id="postInput" class="input-box" rows="3" placeholder="지우님께 익명으로 메시지를 남겨보세요!"></textarea>
-        <button onclick="addPost()" class="submit-btn">등록하기</button>
+        <textarea id="postInput" class="input-box" rows="3" placeholder="지우님께 따뜻한 한마디를 남겨주세요!"></textarea>
+        <button id="saveBtn" class="submit-btn">작성 완료</button>
     </div>
 
     <div id="post-list">
-        <div class="post-card">
-            <p class="post-content">오늘 지우님 영상 너무 예뻐요! 쫌좀님 감사합니다.</p>
-            <div class="post-info">
-                <span>익명팬 · 방금 전</span>
-                <span class="delete-btn">삭제</span>
-            </div>
         </div>
-    </div>
 </div>
 
-<script>
-    // 쫌좀님! 지금 이 방식은 내 브라우저에만 저장되는 방식이에요.
-    // 다른 사람과 글을 공유하려면 'Firebase' 같은 DB를 연결해야 합니다.
-    function addPost() {
-        const input = document.getElementById('postInput');
-        if (!input.value.trim()) return alert("내용을 입력해주세요!");
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, deleteDoc, doc } 
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+    // 🔑 쫌좀님의 15.JPG 파일에 있는 고유 열쇠 값을 그대로 적용했습니다!
+    const firebaseConfig = {
+        apiKey: "AIzaSyDXz0NasgyMsWtlXriyqocMF1Tqe2FJXkg",
+        authDomain: "jiwoo-fan.firebaseapp.com",
+        projectId: "jiwoo-fan",
+        storageBucket: "jiwoo-fan.firebasestorage.app",
+        messagingSenderId: "70224934316",
+        appId: "1:70224934316:web:2ad83d9e1c55f20e7bf609"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const postsCol = collection(db, "posts");
+
+    // 1. 글 저장하기
+    document.getElementById('saveBtn').addEventListener('click', async () => {
+        const content = document.getElementById('postInput').value;
+        if (!content.trim()) return alert("내용을 써주세요!");
+
+        try {
+            await addDoc(postsCol, {
+                text: content,
+                createdAt: serverTimestamp()
+            });
+            document.getElementById('postInput').value = "";
+        } catch (e) {
+            alert("Firestore '규칙' 탭에서 allow read, write: if true; 로 설정했는지 확인해주세요!");
+        }
+    });
+
+    // 2. 글 실시간 불러오기 & 삭제 기능 추가
+    const q = query(postsCol, orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
         const list = document.getElementById('post-list');
-        const newPost = document.createElement('div');
-        newPost.className = 'post-card';
-        newPost.innerHTML = `
-            <p class="post-content">${input.value}</p>
-            <div class="post-info">
-                <span>익명팬 · 방금 전</span>
-                <span class="delete-btn" onclick="this.parentElement.parentElement.remove()">삭제</span>
-            </div>
-        `;
-        
-        list.prepend(newPost); // 최신글이 위로
-        input.value = "";
-    }
+        list.innerHTML = "";
+        snapshot.forEach((postDoc) => {
+            const data = postDoc.data();
+            const date = data.createdAt ? new Date(data.createdAt.seconds * 1000).toLocaleString('ko-KR', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}) : "방금 전";
+            
+            const card = document.createElement('div');
+            card.className = 'post-card';
+            card.innerHTML = `
+                <p class="post-content">${data.text}</p>
+                <div class="post-info">
+                    <span>익명팬 · ${date}</span>
+                    <button class="del-btn" data-id="${postDoc.id}">삭제</button>
+                </div>
+            `;
+            
+            // 삭제 버튼 이벤트 연결
+            card.querySelector('.del-btn').onclick = async (e) => {
+                if(confirm("이 글을 삭제할까요?")) {
+                    await deleteDoc(doc(db, "posts", e.target.dataset.id));
+                }
+            };
+            
+            list.appendChild(card);
+        });
+    });
 </script>
 
 </body>

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
     <title>조윤 FILMOGRAPHY</title>
     <style>
-        /* 한지우 리스트와 100% 동일한 스타일 적용 */
+        /* [기존 디자인 레이아웃] */
         body { 
             font-family: 'Apple SD Gothic Neo', sans-serif; 
             text-align: center; 
             background: #eef2f6; 
-            margin: 0; padding: 0; height: 100vh; 
+            margin: 0; padding: 0; min-height: 100vh; /* height 대신 min-height로 변경하여 모바일 스크롤 대응 */
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            overflow: hidden;
+            overflow-x: hidden; /* 가로 스크롤 방지 */
         }
 
         .bgm-player { 
@@ -70,6 +70,20 @@
         .work-item:hover .work-title { color: #333; letter-spacing: 4px; }
 
         .back-link { position: absolute; bottom: 50px; text-decoration: none; color: #ccc; font-size: 0.7rem; letter-spacing: 3px; }
+
+        /* 2. 모바일 전용 반응형 디자인 추가 */
+        @media (max-width: 768px) {
+            body { overflow: auto; padding-top: 100px; padding-bottom: 80px; }
+            .bgm-player { top: 15px; left: 15px; transform: scale(0.9); transform-origin: left top; }
+            .fixed-btn { left: auto; right: 15px; width: 40px; height: 40px; } /* 버튼을 오른쪽으로 배치해 조작 편의성 증대 */
+            .fixed-btn[style*="top: 85px;"] { top: 15px !important; }
+            .fixed-btn[style*="top: 140px;"] { top: 65px !important; }
+            
+            .header-title { font-size: 1.1rem; letter-spacing: 6px; margin-bottom: 50px; margin-top: 40px; }
+            .work-grid { flex-direction: column; align-items: center; gap: 40px; } /* 가로에서 세로로 변경 */
+            .work-icon { width: 80px; height: 80px; }
+            .back-link { position: relative; bottom: auto; margin-top: 60px; display: block; }
+        }
     </style>
 </head>
 <body>
